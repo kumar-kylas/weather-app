@@ -17,7 +17,10 @@ class ShowInternet extends StatelessWidget {
     return BlocBuilder<InternetBloc, InternetState>(
       key: const Key('internet_bloc_builder'),
       builder: (context, state) {
+        print("inside builder");
+        print(state);
         if (state is InternetConnectedState) {
+          print("inside connected state");
           return Column(
             children: [
               RichText(

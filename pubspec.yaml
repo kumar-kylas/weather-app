@@ -17,6 +17,7 @@ dependencies:
   bloc_test: ^9.1.1
   quick_actions: ^1.0.2
   flutter_dotenv: ^5.0.2
+  mocktail: ^0.3.0
 
 dev_dependencies:
   flutter_test:

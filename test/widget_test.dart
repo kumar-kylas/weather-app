@@ -12,21 +12,46 @@ import 'package:mocktail/mocktail.dart';
 import 'package:weather_app/internet/internet_bloc.dart';
 import 'package:weather_app/internet/internet_events.dart';
 import 'package:weather_app/internet/internet_states.dart';
-import 'package:weather_app/main.dart';
+import 'package:weather_app/internet/show_internet.dart';
+import 'package:weather_app/route_generator.dart';
+import 'package:weather_app/weather/weather_bloc.dart';
+import 'package:weather_app/weather/weather_events.dart';
+import 'package:weather_app/weather/weather_states.dart';
 
 class MockInternetBloc extends MockBloc<InternetEvent, InternetState>
     implements InternetBloc {}
 
+class MockWeatherBloc extends MockBloc<WeatherEvent, WeatherState>
+    implements WeatherBloc {}
+
 Future pumper(WidgetTester wt) async {
   await wt.pumpWidget(
-    BlocProvider(child: const MyApp(), create: (_) => internetBloc),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => internetBloc),
+        BlocProvider(create: (_) => weatherBloc),
+      ],
+      child: const MaterialApp(
+        home: ShowInternet(),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
+      ),
+    ),
   );
   await wt.pump();
 }
 
 late InternetBloc internetBloc;
+late WeatherBloc weatherBloc;
 
 void main() {
+  setUpAll(
+    () {
+      internetBloc = MockInternetBloc();
+      weatherBloc = MockWeatherBloc();
+    },
+  );
+
   setUp(
     () {
       internetBloc = MockInternetBloc();
@@ -37,6 +62,14 @@ void main() {
   );
 
   testWidgets('My tests', (WidgetTester tester) async {
+    when(() => internetBloc.state).thenReturn(
+      InternetConnectedState(ConnectivityResult.wifi),
+    );
+
+    when(() => weatherBloc.state).thenReturn(
+      WeatherSuccessState(WeatherResponse()),
+    );
+
     // Build our app and trigger a frame.
     await pumper(tester);
 
@@ -52,13 +85,15 @@ void main() {
       findsOneWidget,
     );
 
+    expect(find.text('View Weather'), findsOneWidget);
+
     await tester.tap(
       find.byType(ElevatedButton),
     );
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(
-      find.byElementType(AppBar(title: const Text('Weather Page')) as Type),
+      find.byType(WeatherPage),
       findsOneWidget,
     );
   });

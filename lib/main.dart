@@ -8,6 +8,7 @@ import 'package:weather_app/weather/weather_bloc.dart';
 Future<void> main() async {
   // Default filename is .env
   await dotenv.load();
+
   runApp(const MyApp());
 }
 
