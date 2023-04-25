@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/pages/home_page.dart';
 import 'package:weather_app/pages/internet_page.dart';
+import 'package:weather_app/pages/page_one.dart';
+import 'package:weather_app/pages/page_two.dart';
 import 'package:weather_app/pages/weather_page.dart';
 
 class RouteGenerator {
@@ -8,6 +11,21 @@ class RouteGenerator {
 
     switch (settings.name) {
       case '/':
+        return MaterialPageRoute(
+          builder: (_) => const MyHomePage(),
+        );
+
+      case '/page-one':
+        return MaterialPageRoute(
+          builder: (_) => const PageOne(),
+        );
+
+      case '/page-two':
+        return MaterialPageRoute(
+          builder: (_) => const PageTwo(),
+        );
+
+      case '/internet':
         return MaterialPageRoute(
           builder: (_) => const InternetPage(),
         );

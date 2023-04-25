@@ -11,13 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  flutter_bloc: ^8.1.2
   http: ^0.13.5
   connectivity_plus: ^3.0.4
+  flutter_bloc: ^8.1.2
   bloc_test: ^9.1.1
-  quick_actions: ^1.0.2
-  flutter_dotenv: ^5.0.2
   mocktail: ^0.3.0
+  flutter_dotenv: ^5.0.2
+  quick_actions: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -28,4 +28,12 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+  fonts:
+    - family: Code New Roman NF
+      fonts:
+        - asset: fonts/Code-New-Roman-NF.otf
+        - asset: fonts/Code-New-Roman-Italic-NF.otf
+          style: italic
+        - asset: fonts/Code-New-Roman-Bold-NF.otf
+          weight: 700
 
