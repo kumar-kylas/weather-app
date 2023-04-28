@@ -8,54 +8,66 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+ButtonStyle buttonStyle = const ButtonStyle(
+  backgroundColor: MaterialStatePropertyAll(Colors.orange),
+  textStyle: MaterialStatePropertyAll(
+    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+  ),
+);
+
 class _MyHomePageState extends State<MyHomePage> {
-  String initialRoute = '/';
-  ButtonStyle buttonStyle = const ButtonStyle(
-    backgroundColor: MaterialStatePropertyAll(Colors.orange),
-    textStyle: MaterialStatePropertyAll(
-      TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-    ),
-  );
+  // String initialRoute = '/';
 
   @override
   void initState() {
     super.initState();
-
     const QuickActions quickActions = QuickActions();
-    quickActions.initialize((String pageRoute) {
-      setState(() {
-        initialRoute = pageRoute;
-      });
+    quickActions.initialize((String actionName) {
+      String redirectRoute;
+      switch (actionName) {
+        case 'internet':
+          redirectRoute = '/internet';
+          break;
+        case 'pageOne':
+          redirectRoute = '/page-one';
+          break;
+        case 'pageTwo':
+          redirectRoute = '/page-two';
+          break;
+        default:
+          redirectRoute = '/';
+          break;
+      }
+      Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+      if (redirectRoute != '/') {
+        Navigator.pushNamed(context, redirectRoute);
+      }
     });
 
     quickActions.setShortcutItems(
       <ShortcutItem>[
         const ShortcutItem(
-          type: '/',
+          type: 'home',
           localizedTitle: 'Home Page',
-          // icon: 'ic_launcher',
+          icon: 'ic_home',
         ),
         const ShortcutItem(
-          type: '/internet',
+          type: 'internet',
           localizedTitle: 'Internet Page',
-          // icon: 'ic_launcher',
+          icon: 'ic_internet',
         ),
         const ShortcutItem(
-          type: '/page-one',
+          type: 'pageOne',
           localizedTitle: 'Page One',
-          // icon: 'AppIcon',
+          icon: 'ic_one',
         ),
         const ShortcutItem(
-          type: '/page-two',
+          type: 'pageTwo',
           localizedTitle: 'Page Two',
-          // icon: 'ic_launcher',
+          icon: 'ic_two',
         ),
       ],
-    ).then((void _) {
-      if (initialRoute != '/') {
-        Navigator.of(context).pushNamed(initialRoute);
-      }
-    });
+    );
   }
 
   @override
