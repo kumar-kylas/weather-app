@@ -16,8 +16,6 @@ ButtonStyle buttonStyle = const ButtonStyle(
 );
 
 class _MyHomePageState extends State<MyHomePage> {
-  // String initialRoute = '/';
-
   @override
   void initState() {
     super.initState();
